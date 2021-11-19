@@ -1,0 +1,1 @@
+ALTER TABLE customer ADD COLUMN customer_status varchar(15) AFTER email;

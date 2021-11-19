@@ -1,13 +1,18 @@
 package com.mercadolivro.model
 
+import com.mercadolivro.enums.CustomerStatus
 import java.util.*
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.Id
 
 @Entity(name = "customer")
 data class CustomerModel(
     @Id
     val customerId: UUID = UUID.randomUUID(),
-    val name: String,
-    val email: String
+    @Enumerated(EnumType.STRING)
+    var customerStatus: CustomerStatus = CustomerStatus.ATIVO,
+    var name: String,
+    var email: String
 )
