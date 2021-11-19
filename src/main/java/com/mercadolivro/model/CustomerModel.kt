@@ -11,8 +11,17 @@ import javax.persistence.Id
 data class CustomerModel(
     @Id
     val customerId: UUID = UUID.randomUUID(),
-    @Enumerated(EnumType.STRING)
-    var customerStatus: CustomerStatus = CustomerStatus.ATIVO,
     var name: String,
     var email: String
-)
+) {
+    @Enumerated(EnumType.STRING)
+    var customerStatus: CustomerStatus = CustomerStatus.ATIVO
+        set(value) {
+            if(customerStatus == CustomerStatus.INATIVO){
+                throw Exception("Update customer status not possible, inative customer")
+            }
+            customerStatus = value
+            field = value
+        }
+
+}
