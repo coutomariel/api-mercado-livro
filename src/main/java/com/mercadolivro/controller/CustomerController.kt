@@ -23,7 +23,7 @@ class CustomerController(
         uriBuilder: UriComponentsBuilder
     ): ResponseEntity<CustomerResponse> {
 
-        val customer: CustomerModel = customerService.create(createCustomerRequest.toModel())
+        val customer: CustomerModel = customerService.save(createCustomerRequest.toModel())
 
         val response = CustomerResponse.fromModel(customer)
         val uri: URI = uriBuilder.path("/customers/{id}").buildAndExpand(response.id).toUri()
@@ -37,7 +37,7 @@ class CustomerController(
 
     @GetMapping("/{id}")
     fun getCustomer(@PathVariable id: String): CustomerResponse {
-        val customer: CustomerModel = customerService.getCustomer(id)
+        val customer: CustomerModel = customerService.getById(id)
         return CustomerResponse.fromModel(customer)
     }
 
@@ -49,7 +49,7 @@ class CustomerController(
 
     @PutMapping("/{id}")
     fun updateCustomer(@PathVariable id: String, @RequestBody request: CustomerUpdate): ResponseEntity<Any> {
-        val customer = customerService.update(request.toModel(id, request))
+        val customer = customerService.save(request.toModel(id, request, customerService))
         return ResponseEntity.ok().body(CustomerResponse.fromModel(customer))
     }
 }

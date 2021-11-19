@@ -7,4 +7,5 @@ import java.util.*
 
 interface BookRepository: JpaRepository<BookModel, UUID> {
     fun findByStatus(status: BookStatus): List<BookModel>
+    fun findByCustomerCustomerId(customerId: UUID): List<BookModel>
 }

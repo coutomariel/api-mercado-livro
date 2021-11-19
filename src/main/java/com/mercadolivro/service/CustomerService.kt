@@ -1,5 +1,6 @@
 package com.mercadolivro.service
 
+import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.exception.CustomerNotFoundException
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
@@ -8,6 +9,7 @@ import java.util.*
 
 @Service
 class CustomerService(
+    private val bookService: BookService,
     private val customersRepository: CustomerRepository
 ) {
 
@@ -22,31 +24,22 @@ class CustomerService(
         return customersRepository.findAll()
     }
 
-    fun create(customer: CustomerModel): CustomerModel {
+    fun save(customer: CustomerModel): CustomerModel {
         return customersRepository.save(customer)
     }
 
-    fun getCustomer(id: String): CustomerModel {
-        if (!customersRepository.existsById(UUID.fromString(id))) {
-            throw CustomerNotFoundException("Not found customer with ID: $id")
-        }
-        return customersRepository.getById(UUID.fromString(id))
+    fun getById(id: String): CustomerModel {
+        return customersRepository.findById(UUID.fromString(id))
+            .orElseThrow { CustomerNotFoundException("Not found customer with ID: $id") }
 
     }
 
     fun remove(id: String) {
-        val uuid = UUID.fromString(id)
-        if(!customersRepository.existsById(uuid)){
-            throw CustomerNotFoundException("Not found customer with ID: $id")
+        getById(id).apply {
+            this.customerStatus = CustomerStatus.INATIVO
+        }.also {
+            bookService.deleteByCustomer(it.customerId)
+            customersRepository.save(it)
         }
-        customersRepository.deleteById(uuid)
     }
-
-    fun update(customer: CustomerModel): CustomerModel {
-        if(!customersRepository.existsById(customer.customerId)){
-            throw CustomerNotFoundException("Not found customer with ID: ${customer.customerId}")
-        }
-        return customersRepository.save(customer)
-    }
-
 }

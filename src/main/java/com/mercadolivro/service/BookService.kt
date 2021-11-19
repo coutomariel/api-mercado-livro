@@ -47,4 +47,12 @@ class BookService(
             }
     }
 
+    fun deleteByCustomer(customerId: UUID) {
+        val books: List<BookModel> = bookRepository.findByCustomerCustomerId(customerId)
+        for (book in books) {
+            book.status = BookStatus.DELETADO
+        }
+        bookRepository.saveAll(books)
+    }
+
 }

@@ -24,7 +24,7 @@ class BookController(
         @RequestBody request: CreateBookRequest,
         URIbuilder: UriComponentsBuilder
     ): ResponseEntity<BookResponse> {
-        val customer = customerService.getCustomer(request.customerId)
+        val customer = customerService.getById(request.customerId)
 
         val bookCreated: BookModel = bookService.create(request.toModel(customer))
         val uri = URIbuilder.path("/books/{id}").buildAndExpand(bookCreated.id).toUri()
