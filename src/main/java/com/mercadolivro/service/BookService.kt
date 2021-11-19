@@ -5,19 +5,21 @@ import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.exception.BookNotFoundException
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.repository.BookRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class BookService(
-    val bookRepository: BookRepository,
+    private val bookRepository: BookRepository,
 ) {
     fun create(bookModel: BookModel): BookModel {
         return bookRepository.save(bookModel)
     }
 
-    fun getAll(): List<BookModel> {
-        return bookRepository.findAll()
+    fun getAll(pageable: Pageable): Page<BookModel> {
+        return bookRepository.findAll(pageable)
     }
 
     fun getById(id: UUID): BookModel {
