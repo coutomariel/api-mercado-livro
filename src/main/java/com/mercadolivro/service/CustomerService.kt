@@ -2,6 +2,7 @@ package com.mercadolivro.service
 
 import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.exception.CustomerNotFoundException
+import com.mercadolivro.exception.advice.ErrorType
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
@@ -30,7 +31,7 @@ class CustomerService(
 
     fun getById(id: String): CustomerModel {
         return customersRepository.findById(UUID.fromString(id))
-            .orElseThrow { CustomerNotFoundException("Not found customer with ID: $id") }
+            .orElseThrow { CustomerNotFoundException(ErrorType.ML101.message.format(id), ErrorType.ML101.code) }
 
     }
 

@@ -3,6 +3,7 @@ package com.mercadolivro.service
 import com.mercadolivro.controller.dto.BookUpdate
 import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.exception.BookNotFoundException
+import com.mercadolivro.exception.advice.ErrorType
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.repository.BookRepository
 import org.springframework.data.domain.Page
@@ -23,7 +24,8 @@ class BookService(
     }
 
     fun getById(id: UUID): BookModel {
-        return bookRepository.findById(id).orElseThrow { BookNotFoundException("Not found a book with ID:$id") }
+        return bookRepository.findById(id)
+            .orElseThrow { BookNotFoundException(ErrorType.ML201.message.format(id), ErrorType.ML201.code) }
     }
 
     fun getAllActives(): List<BookModel> {
