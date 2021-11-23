@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/books")
@@ -24,7 +25,7 @@ class BookController(
 
     @PostMapping
     fun create(
-        @RequestBody request: CreateBookRequest,
+        @RequestBody @Valid request: CreateBookRequest,
         URIbuilder: UriComponentsBuilder
     ): ResponseEntity<BookResponse> {
         val customer = customerService.getById(request.customerId)

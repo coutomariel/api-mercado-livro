@@ -5,12 +5,14 @@ import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.model.CustomerModel
 import java.math.BigDecimal
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
 
 data class CreateBookRequest(
-    val name: String,
-    val price: BigDecimal,
+    @field:NotEmpty val name: String,
+    @field:NotNull val price: BigDecimal,
     @JsonAlias("customer_id")
-    val customerId: String
+    @field:NotNull val customerId: String
 ) {
     fun toModel(customer: CustomerModel): BookModel {
         return BookModel(

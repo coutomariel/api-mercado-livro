@@ -11,7 +11,7 @@ import java.util.*
 @Service
 class CustomerService(
     private val bookService: BookService,
-    private val customersRepository: CustomerRepository
+    private val customersRepository: CustomerRepository,
 ) {
 
 
@@ -42,5 +42,9 @@ class CustomerService(
             bookService.deleteByCustomer(it.customerId)
             customersRepository.save(it)
         }
+    }
+
+    fun existsByEmail(email: String): Boolean {
+        return customersRepository.existsByEmail(email)
     }
 }
