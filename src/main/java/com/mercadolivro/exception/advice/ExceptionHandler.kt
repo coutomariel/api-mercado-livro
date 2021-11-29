@@ -1,6 +1,7 @@
 package com.mercadolivro.exception.advice
 
 import com.mercadolivro.exception.BookNotFoundException
+import com.mercadolivro.exception.BookSoldException
 import com.mercadolivro.exception.CustomerNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -58,6 +59,20 @@ class ExceptionHandler {
             errorFields = null
         )
         return ResponseEntity.badRequest().body(errorDetails)
+    }
+
+    @ExceptionHandler(BookSoldException::class)
+    fun handleBookSoldException(
+        exception: BookSoldException,
+        request: WebRequest,
+    ): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+            httpCode = HttpStatus.UNPROCESSABLE_ENTITY.value(),
+            message = exception.message,
+            internalCode = exception.internalCode,
+            errorFields = null
+        )
+        return ResponseEntity.unprocessableEntity().body(errorDetails)
     }
 
     @ExceptionHandler(BookNotFoundException::class)

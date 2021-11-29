@@ -14,12 +14,13 @@ data class PurchaseModel(
     val customerModel: CustomerModel,
 
     @ManyToMany
-    @JoinTable(name = "purchase_book",
+    @JoinTable(
+        name = "purchase_book",
         joinColumns = [JoinColumn(name = "purchase_id")],
         inverseJoinColumns = [JoinColumn(name = "book_id")]
     )
     val books: List<BookModel>,
-    val nfe: String? = null,
+    val nfe: String?,
     val price: BigDecimal,
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime? = LocalDateTime.now(),
 )

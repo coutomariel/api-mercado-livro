@@ -3,9 +3,11 @@ package com.mercadolivro.service
 import com.mercadolivro.controller.dto.BookUpdate
 import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.exception.BookNotFoundException
+import com.mercadolivro.exception.BookSoldException
 import com.mercadolivro.exception.advice.ErrorType
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.repository.BookRepository
+import com.mercadolivro.validation.ValidUUID
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -51,10 +53,18 @@ class BookService(
             }
     }
 
-    fun deleteByCustomer(customerId: UUID) {
-        val books: List<BookModel> = bookRepository.findByCustomerCustomerId(customerId)
-        for (book in books) {
-            book.status = BookStatus.DELETADO
+    fun getAllIds(books: Set<@ValidUUID String>): List<BookModel> {
+        books.map { UUID.fromString(it) }.let {
+            return bookRepository.findAllById(it)
+        }
+    }
+
+    fun soldBook(books: List<BookModel>) {
+        books.forEach { book ->
+            if (book.status == BookStatus.VENDIDO) {
+                throw BookSoldException(ErrorType.ML202.message.format(book.id), ErrorType.ML202.code)
+            }
+            book.status = BookStatus.VENDIDO
         }
         bookRepository.saveAll(books)
     }
