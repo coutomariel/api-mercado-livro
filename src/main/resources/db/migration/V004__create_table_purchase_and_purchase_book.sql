@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `purchase` (
 CREATE TABLE IF NOT EXISTS `purchase_book` (
     `purchase_id` BINARY(16) NOT NULL,
     `book_id` BINARY(16) NOT NULL,
-    FOREIGN KEY (purchase_id) REFERENCES purchase(customer_id),
+    FOREIGN KEY (purchase_id) REFERENCES purchase(id),
     FOREIGN KEY (book_id) REFERENCES book(id),
     PRIMARY KEY (purchase_id, book_id)
 )  ENGINE=INNODB;

@@ -38,10 +38,11 @@ class CustomerService(
     fun remove(id: String) {
         getById(id).apply {
             this.customerStatus = CustomerStatus.INATIVO
-        }.also {
-            bookService.deleteByCustomer(it.customerId)
-            customersRepository.save(it)
         }
+//            .also {
+//            bookService.deleteByCustomer(it.customerId)
+//            customersRepository.save(it)
+//        }
     }
 
     fun existsByEmail(email: String): Boolean {

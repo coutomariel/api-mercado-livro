@@ -10,7 +10,6 @@ class BookResponse(
     val name: String,
     val price: BigDecimal,
     val status: BookStatus,
-    val customerId: UUID
 ) {
 
     companion object {
@@ -19,8 +18,7 @@ class BookResponse(
                 id = book.id,
                 name = book.name,
                 price = book.price,
-                status = book.status!!,
-                customerId = book.customer!!.customerId,
+                status = book.status!!
             )
 
         }

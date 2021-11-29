@@ -5,7 +5,7 @@ import com.mercadolivro.controller.dto.CustomerResponse
 import com.mercadolivro.controller.dto.CustomerUpdate
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.service.CustomerService
-import com.mercadolivro.validation.UUID
+import com.mercadolivro.validation.ValidUUID
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -38,19 +38,19 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable @UUID id: String): CustomerResponse {
+    fun getCustomer(@PathVariable @ValidUUID id: String): CustomerResponse {
         val customer: CustomerModel = customerService.getById(id)
         return CustomerResponse.fromModel(customer)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCustomer(@PathVariable @UUID id: String) {
+    fun deleteCustomer(@PathVariable @ValidUUID id: String) {
         customerService.remove(id)
     }
 
     @PutMapping("/{id}")
-    fun updateCustomer(@PathVariable @UUID id: String, @RequestBody request: CustomerUpdate): ResponseEntity<Any> {
+    fun updateCustomer(@PathVariable @ValidUUID id: String, @RequestBody request: CustomerUpdate): ResponseEntity<Any> {
         val customer = customerService.save(request.toModel(id, request, customerService))
         return ResponseEntity.ok().body(CustomerResponse.fromModel(customer))
     }
