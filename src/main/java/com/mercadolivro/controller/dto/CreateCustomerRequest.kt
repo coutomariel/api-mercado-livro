@@ -8,8 +8,9 @@ import javax.validation.constraints.NotEmpty
 data class CreateCustomerRequest(
     @field:NotEmpty val name: String,
     @field:Email @field:EmailAvailable val email: String,
+    @field:NotEmpty val password: String
 ) {
     fun toModel(): CustomerModel {
-        return CustomerModel(name = name, email = email)
+        return CustomerModel(name = name, email = email, password = password)
     }
 }

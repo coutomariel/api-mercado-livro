@@ -1,0 +1,1 @@
+ALTER TABLE customer ADD COLUMN password varchar(15) AFTER customer_status;

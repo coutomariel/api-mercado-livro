@@ -12,7 +12,8 @@ data class CustomerModel(
     @Id
     val customerId: UUID = UUID.randomUUID(),
     var name: String,
-    var email: String
+    var email: String,
+    var password: String
 ) {
     @Enumerated(EnumType.STRING)
     var customerStatus: CustomerStatus = CustomerStatus.ATIVO
