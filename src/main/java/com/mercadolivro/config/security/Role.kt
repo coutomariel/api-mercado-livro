@@ -1,4 +1,4 @@
-package com.mercadolivro.enums
+package com.mercadolivro.config.security
 
 enum class Role(val description: String) {
     ADMIN("ADMIN_ROLE"),
