@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `customer_roles` (
-    `customer_id` BINARY(16),
+    `customer_id` INT,
     `role` VARCHAR(50) NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+    FOREIGN KEY (customer_id) REFERENCES customer(id)
 )  ENGINE=INNODB;

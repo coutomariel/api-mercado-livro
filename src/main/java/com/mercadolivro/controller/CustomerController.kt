@@ -38,19 +38,19 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable @ValidUUID id: String): CustomerResponse {
+    fun getCustomer(@PathVariable @ValidUUID id: Int): CustomerResponse {
         val customer: CustomerModel = customerService.getById(id)
         return CustomerResponse.fromModel(customer)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCustomer(@PathVariable @ValidUUID id: String) {
+    fun deleteCustomer(@PathVariable @ValidUUID id: Int) {
         customerService.remove(id)
     }
 
     @PutMapping("/{id}")
-    fun updateCustomer(@PathVariable @ValidUUID id: String, @RequestBody request: CustomerUpdate): ResponseEntity<Any> {
+    fun updateCustomer(@PathVariable @ValidUUID id: Int, @RequestBody request: CustomerUpdate): ResponseEntity<Any> {
         val customer = customerService.save(request.toModel(id, request, customerService))
         return ResponseEntity.ok().body(CustomerResponse.fromModel(customer))
     }

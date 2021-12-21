@@ -1,18 +1,15 @@
 package com.mercadolivro.model
 
+import com.mercadolivro.config.security.Role
 import com.mercadolivro.enums.CustomerStatus
-import com.mercadolivro.enums.Profile
-import java.util.*
-import java.util.*
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity(name = "customer")
 data class CustomerModel(
     @Id
-    val customerId: UUID = UUID.randomUUID(),
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int?,
+//    val customerId: UUID = UUID.randomUUID(),
     var name: String,
     var email: String,
     var password: String,
@@ -20,8 +17,8 @@ data class CustomerModel(
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "customer_roles", joinColumns = [JoinColumn(name = "customer_id")])
-    @ElementCollection(targetClass = Profile::class, fetch = FetchType.EAGER)
-    var roles: Set<Profile> = setOf()
+    @ElementCollection(targetClass = Role::class, fetch = FetchType.EAGER)
+    var roles: Set<Role> = setOf()
 ) {
     @Enumerated(EnumType.STRING)
     var customerStatus: CustomerStatus = CustomerStatus.ATIVO

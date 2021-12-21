@@ -13,7 +13,7 @@ class GenerateNfeListener(
 
     @Async
     @EventListener
-    private fun generateNfe(purchaseEvent: PurchaseEvent) {
+    fun generateNfe(purchaseEvent: PurchaseEvent) {
         val nfe = UUID.randomUUID().toString()
         val purchase = purchaseEvent.purchaseModel.copy(nfe = nfe)
         service.update(purchase)

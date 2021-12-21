@@ -12,6 +12,7 @@ data class CreateBookRequest(
 ) {
     fun toModel(): BookModel {
         return BookModel(
+            id = null,
             name = name,
             price = price,
             status = BookStatus.ATIVO,

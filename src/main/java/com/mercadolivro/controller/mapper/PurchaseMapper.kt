@@ -15,6 +15,7 @@ class PurchaseMapper(
     fun toModel(request: PostPurchaseRequest): PurchaseModel {
         val books = bookService.getAllIds(request.books)
         return PurchaseModel(
+            id = null,
             customerModel = customerService.getById(request.customerId),
             books = books,
             price = books.sumOf { it.price }, //.map { book -> book.price }.reduce { acc, value -> acc + value },

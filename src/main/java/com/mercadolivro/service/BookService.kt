@@ -7,11 +7,9 @@ import com.mercadolivro.exception.BookSoldException
 import com.mercadolivro.exception.advice.ErrorType
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.repository.BookRepository
-import com.mercadolivro.validation.ValidUUID
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class BookService(
@@ -25,7 +23,7 @@ class BookService(
         return bookRepository.findAll(pageable)
     }
 
-    fun getById(id: UUID): BookModel {
+    fun getById(id: Int): BookModel {
         return bookRepository.findById(id)
             .orElseThrow { BookNotFoundException(ErrorType.ML201.message.format(id), ErrorType.ML201.code) }
     }
@@ -34,7 +32,7 @@ class BookService(
         return bookRepository.findByStatus(BookStatus.ATIVO)
     }
 
-    fun deleteById(id: UUID) {
+    fun deleteById(id: Int) {
         getById(id)
             .apply {
                 status = BookStatus.DELETADO
@@ -43,7 +41,7 @@ class BookService(
             }
     }
 
-    fun update(id: UUID, update: BookUpdate): BookModel {
+    fun update(id: Int, update: BookUpdate): BookModel {
         getById(id)
             .apply {
                 this.name = update.name ?: this.name
@@ -53,8 +51,8 @@ class BookService(
             }
     }
 
-    fun getAllIds(books: Set<@ValidUUID String>): List<BookModel> {
-        books.map { UUID.fromString(it) }.let {
+    fun getAllIds(books: Set<Int>): List<BookModel> {
+        books.map { it }.let {
             return bookRepository.findAllById(it)
         }
     }

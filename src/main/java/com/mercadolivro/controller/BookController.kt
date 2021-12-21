@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
-import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -46,18 +45,18 @@ class BookController(
     }
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: UUID): BookModel {
+    fun getById(@PathVariable id: Int): BookModel {
         return bookService.getById(id)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteById(@PathVariable id: UUID){
+    fun deleteById(@PathVariable id: Int){
         bookService.deleteById(id)
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: UUID, @RequestBody update: BookUpdate): ResponseEntity<BookResponse> {
+    fun update(@PathVariable id: Int, @RequestBody update: BookUpdate): ResponseEntity<BookResponse> {
         val updatedBook = bookService.update(id, update)
         return ResponseEntity.ok().body(BookResponse.fromModel(updatedBook))
     }

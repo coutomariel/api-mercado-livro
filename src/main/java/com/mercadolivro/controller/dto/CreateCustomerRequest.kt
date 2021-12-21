@@ -11,6 +11,6 @@ data class CreateCustomerRequest(
     @field:NotEmpty val password: String
 ) {
     fun toModel(): CustomerModel {
-        return CustomerModel(name = name, email = email, password = password)
+        return CustomerModel(id = null, name = name, email = email, password = password)
     }
 }
