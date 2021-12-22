@@ -5,6 +5,7 @@ import com.mercadolivro.exception.BookSoldException
 import com.mercadolivro.exception.CustomerNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -84,6 +85,20 @@ class ExceptionHandler {
             httpCode = HttpStatus.BAD_REQUEST.value(),
             message = exception.message,
             internalCode = exception.internalCode,
+            errorFields = null
+        )
+        return ResponseEntity.badRequest().body(errorDetails)
+    }
+
+    @ExceptionHandler(AccessDeniedException::class)
+    fun handleAccessDeniedException(
+        exception: BookNotFoundException,
+        request: WebRequest,
+    ): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+            httpCode = HttpStatus.FORBIDDEN.value(),
+            message = ErrorType.ML000.message,
+            internalCode = ErrorType.ML000.code,
             errorFields = null
         )
         return ResponseEntity.badRequest().body(errorDetails)
