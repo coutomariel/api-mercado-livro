@@ -1,6 +1,6 @@
 package com.mercadolivro.config.security
 
 enum class Role(val description: String) {
-    ADMIN("ADMIN_ROLE"),
-    CUSTOMER("ADMIN_ROLE")
+    ADMIN("ROLE_ADMIN"),
+    CUSTOMER("ROLE_CUSTOMER")
 }

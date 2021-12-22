@@ -1,5 +1,6 @@
 package com.mercadolivro.controller
 
+import com.mercadolivro.config.security.UserCanOnlyAccessTheirOwnResource
 import com.mercadolivro.controller.dto.CreateCustomerRequest
 import com.mercadolivro.controller.dto.CustomerResponse
 import com.mercadolivro.controller.dto.CustomerUpdate
@@ -38,19 +39,20 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable @ValidUUID id: Int): CustomerResponse {
+    @UserCanOnlyAccessTheirOwnResource
+    fun getCustomer(@PathVariable id: Int): CustomerResponse {
         val customer: CustomerModel = customerService.getById(id)
         return CustomerResponse.fromModel(customer)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCustomer(@PathVariable @ValidUUID id: Int) {
+    fun deleteCustomer(@PathVariable id: Int) {
         customerService.remove(id)
     }
 
     @PutMapping("/{id}")
-    fun updateCustomer(@PathVariable @ValidUUID id: Int, @RequestBody request: CustomerUpdate): ResponseEntity<Any> {
+    fun updateCustomer(@PathVariable id: Int, @RequestBody request: CustomerUpdate): ResponseEntity<Any> {
         val customer = customerService.save(request.toModel(id, request, customerService))
         return ResponseEntity.ok().body(CustomerResponse.fromModel(customer))
     }
