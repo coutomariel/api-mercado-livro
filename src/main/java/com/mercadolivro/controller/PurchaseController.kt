@@ -10,7 +10,7 @@ import java.net.URI
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/purchase")
+@RequestMapping("/purchases")
 class PurchaseController(
     private val purchaseService: PurchaseService,
     private val purchaseMapper: PurchaseMapper,
