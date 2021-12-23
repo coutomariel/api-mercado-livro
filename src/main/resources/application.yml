@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: "dev"
   application:
     name: mercadolivro
 
@@ -6,12 +8,6 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
-
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}/${MYSQL_DATABASE:mercadolivro_db}?allowPublicKeyRetrieval=true&useSSL=false
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:root}
-    type: org.springframework.jdbc.datasource.DriverManagerDataSource
 
   jackson:
     default-property-inclusion: non_null
