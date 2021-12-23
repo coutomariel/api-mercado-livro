@@ -1,8 +1,6 @@
 package com.mercadolivro.controller
 
-import com.mercadolivro.controller.dto.BookResponse
-import com.mercadolivro.controller.dto.BookUpdate
-import com.mercadolivro.controller.dto.CreateBookRequest
+import com.mercadolivro.controller.dto.*
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
@@ -18,14 +16,14 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/books")
 class BookController(
-    val bookService: BookService,
-    val customerService: CustomerService
+    private val bookService: BookService,
+    private val customerService: CustomerService,
 ) {
 
     @PostMapping
     fun create(
         @RequestBody @Valid request: CreateBookRequest,
-        URIbuilder: UriComponentsBuilder
+        URIbuilder: UriComponentsBuilder,
     ): ResponseEntity<BookResponse> {
 
         val bookCreated: BookModel = bookService.create(request.toModel())
@@ -35,8 +33,8 @@ class BookController(
     }
 
     @GetMapping
-    fun getAll(@PageableDefault(page = 0, size = 5) pageable: Pageable): Page<BookResponse> {
-        return bookService.getAll(pageable).map { book -> BookResponse.fromModel(book) }
+    fun getAll(@PageableDefault(page = 0, size = 5) pageable: Pageable): PageResponse<BookResponse> {
+        return bookService.getAll(pageable).map { book -> BookResponse.fromModel(book) }.toPageResponse()
     }
 
     @GetMapping("/actives")
@@ -51,7 +49,7 @@ class BookController(
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteById(@PathVariable id: Int){
+    fun deleteById(@PathVariable id: Int) {
         bookService.deleteById(id)
     }
 

@@ -46,7 +46,7 @@ class SecurityConfig(
 
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
-            .antMatchers(HttpMethod.GET, *PUBLIC_GET_MATCHERS).permitAll()
+            .antMatchers(*PUBLIC_GET_MATCHERS).permitAll()
             .antMatchers(*ADMIN_MATCHERS).hasAuthority(Role.ADMIN.description)
             .anyRequest().authenticated()
 
