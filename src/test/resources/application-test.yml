@@ -1,17 +1,13 @@
 spring:
   application:
     name: mercadolivro
-
-  profiles:
-    active: "test"
-
   jpa:
     generate-ddl: false
     hibernate:
       ddl-auto: none
 
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}/${MYSQL_DATABASE:mercadolivrotest_db}?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://${MYSQL_HOST:localhost}/${MYSQL_DATABASE:mercadolivrotest_db}?createDatabaseIfNotExist=true&useSSL=true
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASSWORD:root}
     type: org.springframework.jdbc.datasource.DriverManagerDataSource
