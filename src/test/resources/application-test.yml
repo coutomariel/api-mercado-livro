@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: mercadolivro
+
+  profiles:
+    active: "test"
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}/${MYSQL_DATABASE:mercadolivrotest_db}?allowPublicKeyRetrieval=true&useSSL=false
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+
+  jackson:
+    default-property-inclusion: non_null
+
+jwt:
+  secret: 0cb8a0c8-2925-4771-b833-10c3edbecca5
+  expiration: 999999

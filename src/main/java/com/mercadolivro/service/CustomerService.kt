@@ -11,18 +11,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    private val bookService: BookService,
     private val customersRepository: CustomerRepository,
-    private val bcryp: BCryptPasswordEncoder
+    private val bcryp: BCryptPasswordEncoder,
 ) {
 
 
     fun getAll(name: String?): List<CustomerModel> {
         name?.let {
-            return customersRepository.findAll()
-                .filter { customerModel ->
-                    customerModel.name.contains(name, true)
-                }
+            return customersRepository.findByNameContaining(it)
         }
         return customersRepository.findAll()
     }
@@ -42,13 +38,10 @@ class CustomerService(
     }
 
     fun remove(id: Int) {
-        getById(id).apply {
-            this.customerStatus = CustomerStatus.INATIVO
+        val customer = getById(id).apply {
+            customerStatus = CustomerStatus.INATIVO
         }
-//            .also {
-//            bookService.deleteByCustomer(it.customerId)
-//            customersRepository.save(it)
-//        }
+        customersRepository.save(customer)
     }
 
     fun existsByEmail(email: String): Boolean {
