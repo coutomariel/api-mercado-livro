@@ -18,6 +18,15 @@ fun buildCustomerModel(
     password = password
 )
 
+fun buildBookModel(
+    id: Int? = null,
+    name: String = "Customer name",
+    price: BigDecimal = BigDecimal.TEN
+) = BookModel(
+    id = id,
+    name = name,
+    price = price,
+)
 
 fun buildPurchaseModel(
     id: Int? = null,

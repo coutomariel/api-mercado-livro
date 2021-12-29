@@ -54,12 +54,12 @@ class ExceptionHandler {
         request: WebRequest,
     ): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
-            httpCode = HttpStatus.BAD_REQUEST.value(),
+            httpCode = HttpStatus.NOT_FOUND.value(),
             message = exception.message,
             internalCode = exception.internalCode,
             errorFields = null
         )
-        return ResponseEntity.badRequest().body(errorDetails)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails)
     }
 
     @ExceptionHandler(BookSoldException::class)
@@ -82,12 +82,12 @@ class ExceptionHandler {
         request: WebRequest,
     ): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
-            httpCode = HttpStatus.BAD_REQUEST.value(),
+            httpCode = HttpStatus.NOT_FOUND.value(),
             message = exception.message,
             internalCode = exception.internalCode,
             errorFields = null
         )
-        return ResponseEntity.badRequest().body(errorDetails)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails)
     }
 
     @ExceptionHandler(AccessDeniedException::class)

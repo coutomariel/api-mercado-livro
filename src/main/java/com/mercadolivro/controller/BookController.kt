@@ -43,8 +43,9 @@ class BookController(
     }
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): BookModel {
-        return bookService.getById(id)
+    fun getById(@PathVariable id: Int): BookResponse {
+        val book = bookService.getById(id)
+        return BookResponse.fromModel(book)
     }
 
     @DeleteMapping("/{id}")

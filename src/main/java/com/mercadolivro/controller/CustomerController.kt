@@ -39,7 +39,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    @UserCanOnlyAccessTheirOwnResource
+//    @UserCanOnlyAccessTheirOwnResource
     fun getCustomer(@PathVariable id: Int): CustomerResponse {
         val customer: CustomerModel = customerService.getById(id)
         return CustomerResponse.fromModel(customer)

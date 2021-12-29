@@ -8,8 +8,10 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mock
 import org.springframework.context.ApplicationEventPublisher
 
 @ExtendWith(MockKExtension::class)
@@ -17,6 +19,10 @@ class PurchaseServiceTest {
 
     @MockK
     private lateinit var purchaseRepository: PurchaseRepository
+
+    @MockK
+    private lateinit var bookService: BookService
+
     @MockK
     private lateinit var publisher: ApplicationEventPublisher
 
@@ -26,8 +32,9 @@ class PurchaseServiceTest {
     val purchaseEventSlot = slot<PurchaseEvent>()
 
     @Test
-    fun `should create purchase and publish event`(){
+    fun `should create purchase and publish event`() {
         val purchaseModel = buildPurchaseModel(nfe = null)
+        every { bookService.soldBook(purchaseModel.books) } just runs
         every { purchaseRepository.save(purchaseModel) } returns purchaseModel
         every { publisher.publishEvent(any()) } just runs
 
@@ -36,7 +43,7 @@ class PurchaseServiceTest {
         verify(exactly = 1) { purchaseRepository.save(purchaseModel) }
         verify(exactly = 1) { publisher.publishEvent(capture(purchaseEventSlot)) }
 
-        Assertions.assertEquals(purchaseModel, purchaseEventSlot.captured.purchaseModel)
+        assertEquals(purchaseModel, purchaseEventSlot.captured.purchaseModel)
     }
 
     @Test

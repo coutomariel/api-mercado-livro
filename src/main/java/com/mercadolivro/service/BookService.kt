@@ -33,22 +33,18 @@ class BookService(
     }
 
     fun deleteById(id: Int) {
-        getById(id)
-            .apply {
-                status = BookStatus.DELETADO
-            }.also {
-                bookRepository.save(it)
-            }
+        val book = getById(id).apply {
+            status = BookStatus.DELETADO
+        }
+        bookRepository.save(book)
     }
 
     fun update(id: Int, update: BookUpdate): BookModel {
-        getById(id)
-            .apply {
-                this.name = update.name ?: this.name
-                this.price = update.price ?: this.price
-            }.also {
-                return bookRepository.save(it)
-            }
+        val book = getById(id).apply {
+            this.name = update.name ?: this.name
+            this.price = update.price ?: this.price
+        }
+        return bookRepository.save(book)
     }
 
     fun getAllIds(books: Set<Int>): List<BookModel> {

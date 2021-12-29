@@ -3,6 +3,7 @@ package com.mercadolivro.controller.dto
 import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.model.BookModel
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 class BookResponse(

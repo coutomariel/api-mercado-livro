@@ -2,6 +2,7 @@ package com.mercadolivro.repository
 
 import buildCustomerModel
 import io.mockk.junit5.MockKExtension
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -20,12 +21,13 @@ class CustomerRepositoryTest {
     private lateinit var customerRepository: CustomerRepository
 
     @BeforeEach
-    fun setUp() {
-        customerRepository.deleteAll()
-    }
+    fun setUp() = customerRepository.deleteAll()
+
+    @AfterEach
+    fun tearDown() = customerRepository.deleteAll()
 
     @Test
-    fun `should return customer containing`(){
+    fun `should return customer containing`() {
         customerRepository.save(buildCustomerModel(name = "Patricia"))
         val julia = customerRepository.save(buildCustomerModel(name = "Julia"))
         val result = customerRepository.findByNameContaining("Jul")
@@ -40,7 +42,7 @@ class CustomerRepositoryTest {
     inner class `exists by email` {
 
         @Test
-        fun `shoud return true when email exists`(){
+        fun `shoud return true when email exists`() {
             val email = "patricia@email.com"
             customerRepository.save(buildCustomerModel(name = "Patricia", email = email))
             val result = customerRepository.existsByEmail(email)
@@ -48,7 +50,7 @@ class CustomerRepositoryTest {
         }
 
         @Test
-        fun `shoud return false when email not exists`(){
+        fun `shoud return false when email not exists`() {
             val email = "julia@email.com"
             val result = customerRepository.existsByEmail(email)
             assertFalse(result)
